@@ -1,3 +1,6 @@
+// 1.0.5
+// 20130219 logo, splash and color changed 
+
 // 1.0.4
 // 20130122 communication with backend is changed from JSON over POST to JSONP over GET and HTTPS, 
 //          i.e. it solve CORS problem if web app is deployed as published web in Google Drive 
@@ -5,7 +8,7 @@
 //          req:  https://to2parking.appspot.com/getvalue?tag=ID640PARK1&callback=func
 //          resp: func(["VALUE", "ID640PARK1", "[\"23.1.2013 8:58\",29,16]", "11.1.2013 0:54"]) 
 
-var APP_VERSION = '1.0.4';
+var APP_VERSION = '1.0.5';
 
 var GA_PLUGIN_ID = 'UA-37001546-2'; // web type
            
