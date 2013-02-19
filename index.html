@@ -1,0 +1,318 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+<title>TCZ Parking</title>
+<link rel="stylesheet" href="jqm/jquery.mobile-1.2.0.min.css" /> 
+<link rel="stylesheet" href="index.css" />
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+<script type="text/javascript" charset="utf-8" src="jqm/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/debug.js"></script> 
+<script type="text/javascript" charset="utf-8" src="js/config.js"></script> 
+<script type="text/javascript" charset="utf-8" src="jqm/jquery.mobile-1.2.0.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="jqm/jquery.mobile.routerlite.js"></script>
+<script src="phonegap.js"></script>
+<script src="GAPlugin.js"></script>
+<script src="childbrowser.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/date.min.js"></script>
+<!--<script type="text/javascript" charset="utf-8" src="js/jquery.touchToClick.js" ></script> -->
+<script type="text/javascript" charset="utf-8" src="js/layout.js"></script> 
+<script type="text/javascript" charset="utf-8" src="index.js"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37001546-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body onload="init();">
+
+
+	<div id="universalHeader" style="display: none;">
+		<div data-role="header" id="headerMain" data-position="fixed" data-tap-toggle="false" data-theme="b" >
+			<!-- <img border="0" src="images/O2Parking448.png" width="36px" alt="Logo, Facebook" style="float:left;display:inline"/> -->
+			<h1>TCZ Parking</h1>
+			<!-- <a href="#pageSetup" data-icon="grid" class="ui-btn-right" data-iconpos="notext">Options</a> -->
+		</div>
+	</div>
+	
+	<div id="universalFooter" style="display: none;">
+		<div data-role="footer"  id="footerMain" data-position="fixed" data-tap-toggle="false" data-theme="b">
+			<div data-role="navbar" data-iconpos="top">
+				<ul>
+					<li><a href="#pageMain" data-icon="refresh" class="btn-refresh"><span class="text-refresh">Aktualizovat</span></a></li>
+					<li><a href="#pageSelect" data-icon="search" class="Xui-state-persist">Vybrat</a></li>
+					<li><a href="#pageSetup" data-icon="gear" class="Xui-state-persist">Nastavit</a></li>
+					<li><a href="#pageInfo" data-icon="info" class="Xui-state-persist">O aplikaci</a></li>
+				</ul>
+			</div> <!-- /navbar -->
+		</div> <!-- /footer -->
+	</div>
+
+	<div data-role="page" id="pageMain" class="wrapper">
+		<div data-role="content" class="fullHeight">
+			<div class="content-secondary ui-bar-b">
+				<ul id="listParking2" data-role="listview" data-inset="false"
+					class="ui-li-twoBubble" data-theme="c" data-dividertheme="b">
+					<li data-role="list-divider">Lokalita</li>
+				</ul>
+				<ul id="menuParking2" data-role="listview" data-inset="false"
+					class="ui-li-twoBubble" data-theme="b" data-dividertheme="b">
+					<li data-icon="refresh"><a href="#pageMain"	class="btn-refresh"><span class="text-refresh">Aktualizovat</span></a></li>
+					<li data-icon="gear"><a href="#pageSetup">Nastavit</a></li>
+					<li data-icon="info"><a href="#pageInfo">O aplikaci</a></li>
+				</ul>
+			</div>
+
+			<div class="content-primary">
+				<div class="parking">
+					<ul id="loc" data-role="listview" data-inset="true" data-theme="b"
+						data-dividertheme="c">
+						<li><a href="#pageSelect"><span id="parkingName">----</span></a>
+							<span class="ui-li-count" id="statusTimeout">neznámý stav</span>
+						</li>
+						<li data-role="list-divider">
+							<div class="parking-signs ui-grid-a" style="height: 100%">
+								<div class="sign ui-block-a">
+									<ul data-role="listview" data-inset="true">
+										<li data-role="list-divider">Služební <span	class="ui-li-count" id="statusCorporate">--</span>
+										</li>
+										<li>
+											<div>
+												<img src="images/signs/off-traffic-light-128x300.png"	id="imgCorporate" alt="">
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="sign ui-block-b">
+									<ul data-role="listview" data-inset="true">
+										<li data-role="list-divider">Soukromé <span	class="ui-li-count" id="statusPrivate">--</span>
+										</li>
+										<li>
+											<div>
+												<img src="images/signs/off-traffic-light-128x300.png"	id="imgPrivate" alt="">
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</li>
+						<li data-role="list-divider">
+ 							<span class="ui-li-count" id="statusLastUpdate">--</span>
+								Čas aktualizace:
+						</li>
+					</ul>
+
+				</div>
+
+			</div>
+		</div>
+		
+	</div>
+
+	<div data-role="page" id="pageSelect" class="wrapper" data-theme="c" data-add-back-btn="true">
+		<div data-role="header" data-theme="b">
+			<h1>Výběr : TCZ Parking</h1>
+		</div>
+		<div data-role="content">
+<!-- 			<div class="content-secondary ui-bar-b">
+				<ul id="menuParking2" data-role="listview" data-inset="false"
+					class="ui-li-twoBubble" data-theme="b" data-dividertheme="b">
+					<li data-icon="refresh"><a href="#pageMain"
+						class="btn-refresh">Aktualizovat</a></li>
+					<li data-icon="gear"><a href="#pageSetup">Nastavit</a></li>
+				</ul>
+			</div> 
+
+			<div class="content-primary"> -->
+				<ul id="listParking1" data-role="listview" data-inset="false"
+					class="ui-li-twoBubble" data-theme="c" data-dividertheme="b">
+					<li data-role="list-divider">Lokalita</li>
+				</ul>
+<!-- 			</div> -->
+		</div>	<!-- /content -->
+	</div>	<!-- /page -->
+
+	<div data-role="page" id="pageSetup" data-theme="c" data-add-back-btn="true">
+		<div data-role="header" data-theme="b">
+			<h1>Nastavení : TCZ Parking</h1>
+		</div>
+		<div data-role="content">
+<!-- 			<div class="content-secondary ui-bar-b">
+ 
+			</div>
+			<div class="content-primary"> -->
+				<ul id="listSetup" data-role="listview" data-inset="false" data-theme="c" data-dividertheme="b">
+					<li data-role="list-divider">Aktualizace</li>
+          <li>
+            <div data-role="fieldcontain">
+              <input type="checkbox" name="checkAutoRefresh" id="checkAutoRefresh" /> 
+              <label for="checkAutoRefresh">Aktualizovat automaticky</label>
+            </div>
+            <div data-role="fieldcontain">
+              <label for="selectTimeout">Po dobu:</label> 
+              <select name="selectTimeout" id="selectTimeout" data-mini="false">
+                <option value="1">1 minuty</option>
+                <option value="2">2 minut</option>
+                <option value="3">3 minut</option>
+                <option value="5">5 minut</option>
+                <option value="10">10 minut</option>
+                <option value="15">15 minut</option>
+                <option value="20">20 minut</option>
+              </select>
+            </div>
+            <div data-role="fieldcontain">
+              <label for="selectInterval">Každých:</label> 
+              <select name="selectInterval" id="selectInterval" data-mini="false">
+                <option value="15">15 vteřin</option>
+                <option value="30">30 vteřin</option>
+                <option value="60">60 vteřin</option>
+                <option value="300">5 minut</option>
+              </select>
+            </div>
+          </li>
+					<li data-role="list-divider">Semafor</li>
+          <li>
+            <div data-role="fieldcontain">
+              <label for="editYellowThreshold">Počet volných míst od kdy svítí žlutá:</label> 
+              <input type="range" name="editYellowThreshold" id="editYellowThreshold" min="1" max="50" />
+            </div>
+          </li>
+					<li data-role="list-divider">Debug</li>
+          <li>
+            <div data-role="fieldcontain">
+              <input type="checkbox" name="checkDebugLog" id="checkDebugLog" /> 
+              <label for="checkDebugLog">Povolit zobrazení debug logu</label>
+            </div>
+            <div data-role="fieldcontain">
+              <label for="selectDebugLevel">Úroveň detailu v logu:</label> 
+              <select name="selectDebugLevel" id="selectDebugLevel" data-mini="false">
+                <option value="0">Verbose</option>
+                <option value="1">Information</option>
+                <option value="2">Warning</option>
+                <option value="3">Error</option>
+              </select>
+            </div>
+          </li>
+				</ul>
+<!-- 			</div> -->
+		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false" id="footerSetup" data-theme="b"><!--  data-tap-toggle="false"> -->
+			<div data-role="navbar" data-iconpos="top">
+				<ul>
+					<li><a class="btn-setup-ok" href="#pageMain" data-icon="check">OK</a></li>
+				</ul>
+			</div> <!-- /navbar -->
+		</div> <!-- /footer -->
+	</div>
+
+	<section data-role="page" id="pageInfo" class="splash-page">
+		<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="b">
+			<h1>Informace : TCZ Parking</h1>
+		</div>
+		<div data-role="content">
+			<a href="#pageMain" class="btn-ok"><img src="images/O2Parking448.png" alt="TCZ Parking" class="info-logo"></a>
+			<h2>TCZ Parking</h2>
+			<p>Aplikace pro zobrazení stavu obsazenosti parkovacích míst v budovách Telefonica Praha.<p/>
+			<i>Copyright © 2013 <a href="mailto:ales.holubec@telefonica.com?subject=TCZ%20Parking%20feedback">Aleš Holubec</a></i>
+
+      <div data-role="collapsible" data-collapsed="true" data-mini="true" data-iconpos="right" data-theme="c" data-content-theme="d">
+        <h3>Mobilní aplikace ke stažení <img src="https://build.phonegap.com/ui/imgs/phonegap-build-logo_122.png" alt="PhoneGap Build" width="32" style="vertical-align: middle;"></h3>
+        Aktuální verzi aplikace ke stažení do vašeho mobilního telefonu najdete na stránce <a href="http://build.phonegap.com/apps/273047/share">Adobe PhoneGap Build</a> nebo použijte QR kód:
+        <br/>
+        <img class="qr-code" src="https://chart.googleapis.com/chart?chs=116x116&amp;cht=qr&amp;chl=http://build.phonegap.com/apps/273047/install/?qr_key=Cdzzy6kG5g3rChFsUZHo&amp;chld=L|1&amp;choe=UTF-8"></p>
+        K dispozici je i <a href="https://build.phonegap.com/apps/273222/share">debug verze</a>, kde se případné opravy aplikace objeví nejdříve a nabídnou se automaticky ke stažení.
+      </div>
+      
+      <div data-role="collapsible-set" data-theme="c" data-content-theme="d">
+        <div data-role="collapsible" data-collapsed="false" data-mini="true" data-iconpos="right" >
+            <h3>Verze 1.0.4</h3>
+            22.1.2013
+          <ul>
+            <li>Oprava zobrazení pokud nejsou data</li>
+            <li>Přepnuta komunikace z backendem přes HTTPS a JSONP</li>
+          </ul>
+        </div>
+        <div data-role="collapsible" data-collapsed="true" data-mini="true" data-iconpos="right" >
+            <h3>Verze 1.0.3</h3>
+            10.1.2013
+          <ul>
+            <li>Oprava výpočtu času od poslední aktualizace</li>
+            <li>Na backendu zapnuta memcache</li>
+          </ul>
+        </div>
+        <div data-role="collapsible" data-collapsed="true" data-mini="true" data-iconpos="right" >
+            <h3>Verze 1.0.2</h3>
+            9.1.2013
+          <ul>
+            <li>Úprava úvodní obrazovky</li>
+          </ul>
+        </div>
+        <div data-role="collapsible" data-collapsed="true" data-mini="true" data-iconpos="right" >
+            <h3>Verze 1.0.1</h3>
+            7.1.2013
+          <ul>
+            <li>Oprava ukládání konfigurace</li>
+            <li>Podpora pro Android 2.x a výše</li>
+          </ul>
+        </div>
+        <div data-role="collapsible" data-collapsed="true" data-mini="true" data-iconpos="right" >
+            <h3>Verze 1.0.0</h3>
+            4.1.2013
+          <ul>
+            <li>Základní verze určená k otestovaní širší skupinou uživatelů</li>
+            <li>Testováno na: Galaxy Nexus</li>
+            <li>Podporované platformy:</li>
+              <ul>
+              <li><b>Android</b>: ensure your Android device can install apk files from unknown sources enter Settings -> Applications -> and enable Unkown Sources</li>
+              <li><b>webOS</b>: You cannot install webOS packages (ipk files) directly from the web; use Palm's palm-install utility for this</li>
+              <li><b>Symbian</b>: Download and open the wgz file on your device. Done!</li>
+              <li><b>Windows Phone</b>: You cannot install Windows Phone packages directly from the web; you will need to use Microsoft's tools</li>
+              </ul>
+            <li>Nepodporované platformy: iOS, BlackBerry</li>
+          </ul>
+        </div>
+      </div>
+        <div data-role="collapsible" data-collapsed="false" data-mini="true" data-iconpos="right" data-theme="c" data-content-theme="d" class="enable-debuglog">
+            <h3>Debug log</h3>
+            Zobrazí detailní informace o činnosti programu.
+            <a href="#pageLog" data-role="button" data-icon="alert" class="Xui-state-persist">Debug Log</a>
+        </div>
+		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false" id="footerInfo" data-theme="b"><!--  data-tap-toggle="false"> -->
+			<div data-role="navbar" data-iconpos="top">
+				<ul>
+					<li><a class="btn-info-ok" href="#pageMain" data-icon="check">OK</a></li>
+				</ul>
+			</div> <!-- /navbar -->
+		</div> <!-- /footer -->
+	</section>
+
+	<div data-role="page" id="pageLog" data-theme="c" data-add-back-btn="true">
+		<div data-role="header" data-position="fixed" data-theme="b">
+			<h1>Debug : TCZ Parking</h1>
+		</div>
+		<div data-role="content">
+		<textarea id="textLog" data-mini="true"></textarea>
+		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false" id="footerLog" data-theme="b"><!--  data-tap-toggle="false"> -->
+			<div data-role="navbar" data-iconpos="top">
+				<ul>
+					<li><a class="btn-ok" href="#pageMain" data-icon="check">OK</a></li>
+					<li><a class="btn-clear" data-icon="delete">Smazat</a></li>
+				</ul>
+			</div> <!-- /navbar -->
+		</div> <!-- /footer -->
+	</div>
+	
+</body>
+</html>
